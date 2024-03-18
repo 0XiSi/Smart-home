@@ -49,6 +49,6 @@ mqtt_thread = threading.Thread(target=mqtt_loop)
 mqtt_thread.start()
 
 # loop for publishing messages
-while True:
-    message = input("Enter a message to publish: ")
-    client.publish("b", payload=message, qos=1)
+# while True:
+#     message = input("Enter a message to publish: ")
+#     client.publish("b", payload=message, qos=1)
