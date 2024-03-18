@@ -1,0 +1,43 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Signin To Your Account</h1>
+      <br>
+      <p>
+        <a href="{% url 'accounts:user_signup' %}" class="btn btn-primary" style="margin-right: 5pt">Signup</a>
+        <a href="{% url 'home:home_page' %}" class="btn btn-secondary">Home</a>
+      </p>
+
+      </div>
+  </div>
+</section>
+<div class="form-control mx-auto" style="max-width: 50%" >
+<form novalidate method="post" action="{% url 'accounts:user_signin' %}">
+{% csrf_token %}
+    <p></p>
+  <div class="form-group" >
+    <label for="{{ signin_form.full_name.id_for_label }}">Username</label>
+    {{ signin_form.username }}
+    {% for error in signin_form.username.errors %}
+        <p class="text-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+    <br>
+  <div class="form-group">
+    <label for="{{ signin_form.password.id_for_label }}">Password</label>
+    {{ signin_form.password }}
+      {% for error in signin_form.password.errors %}
+          <p class="text-danger">{{ error }}</p>
+      {% endfor %}
+  </div>
+    <br>
+  <button type="submit" class="btn btn-primary">Submit</button>
+    <p></p>
+</form>
+</div>
+{% endblock content %}
+{% block title %}
+    Signin Page
+{% endblock title %}

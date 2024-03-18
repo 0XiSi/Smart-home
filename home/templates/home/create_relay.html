@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+{% block title %}Create Relay{% endblock title %}
+{% block content %}
+
+
+    <form class="form-control mx-auto" method="post" action="{% url 'home:create_relay' %}" style="max-width: 50%">
+    <p class="text-warning">Create a New Relay</p>
+    {% csrf_token %}
+
+ <!-- Name -->
+    <div class="col">
+      <div class="form-outline">
+        {{ form.name }}
+        <label class="form-label" for="{{ form.name.id_for_label }}">Name</label>
+        {% for error in form.name.errors %}
+            <p class="text-danger">{{ error }}</p>
+        {% endfor %}
+      </div>
+    </div>
+
+  <!-- Mac Address -->
+  <div data-mdb-input-init class="form-outline mb-4">
+    {{ form.mac_addr }}
+    <label class="form-label" for="{{ form.mac_adress.id_for_label }}">Mac Address</label>
+    {% for error in form.mac_addr.errors %}
+        <p class="text-danger">{{ error }}</p>
+    {% endfor %}
+  </div>
+
+  <!-- State -->
+  <div data-mdb-input-init class="form-outline mb-4">
+    {{ form.state }}
+    <label class="form-label" for="{{ form.state.id_for_label }}">State</label>
+  </div>
+
+
+  <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Create Article</button>
+</form>
+
+{% endblock content %}

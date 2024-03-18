@@ -1,0 +1,13 @@
+{% extends 'base/base.html' %}
+{% block title %}
+    HomePage
+{% endblock title %}
+
+{% block content %}
+<div class="card mx-auto" style="max-width: 20%">
+<div class="d-flex p-2 card-body">
+    <a href="{% url 'home:create_relay' %}" class="mx-auto btn btn-success">New relay</a>
+    <a href="{% url 'home:relay_list' %}"  class="mx-auto btn btn-primary"> Relay List</a>
+</div>
+</div>
+{% endblock content %}

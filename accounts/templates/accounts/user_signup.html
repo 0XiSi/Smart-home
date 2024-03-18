@@ -1,0 +1,132 @@
+{% extends 'base/base.html' %}
+{% block content %}
+<section class="py-5 text-center container">
+  <div class="row py-lg-5">
+    <div class="col-lg-6 col-md-8 mx-auto">
+      <h1 class="fw-light">Create Your New Account</h1>
+      <br>
+      <p>
+        <a href="{% url 'accounts:user_signin' %}" class="btn btn-primary" style="margin-right: 5pt">Login</a>
+        <a href="{% url 'home:home_page' %}" class="btn btn-secondary">Home</a>
+      </p>
+
+      </div>
+  </div>
+</section>
+<div class="form-control mx-auto text-center" style="max-width: 50%">
+<form novalidate method="post" action="{% url 'accounts:user_signup' %}">
+{% csrf_token %}
+  <!-- 2 column grid layout with text inputs for the first and last names -->
+  <div class="row mb-4">
+  <div class="col">
+      <div data-mdb-input-init class="form-outline">
+        {{ signup_form.username }}
+        <label for="{{ signup_form.username.id_for_label }}">Username</label>
+        {% for error in signup_form.username.errors %}
+            <small class="text-danger">{{ error }}</small >
+        {% endfor %}
+      </div>
+    </div>
+    <div class="col">
+      <div data-mdb-input-init class="form-outline">
+        {{ signup_form.full_name }}
+        <label for="{{ signup_form.full_name.id_for_label }}">Full name</label>
+        {% for error in signup_form.full_name.errors %}
+            <small class="text-danger">{{ error }}</small >
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- Email input -->
+  <div data-mdb-input-init class="form-outline mb-4">
+    {{ signup_form.email }}
+    <label for="{{ signup_form.email.id_for_label }}">Email</label>
+    {% for error in signup_form.email.errors %}
+      <small class="text-danger">{{ error }}</small >
+    {% endfor %}
+  </div>
+
+  <!-- Password input -->
+<div class="row mb-4">
+<div class="col">
+  <div data-mdb-input-init class="form-outline mb-4">
+    {{ signup_form.password }}
+    <label for="{{ signup_form.password.id_for_label }}">Password</label>
+    {% for error in signup_form.password.errors %}
+        <small class="text-danger">{{ error }}</small >
+    {% endfor %}
+  </div>
+  </div>
+<div class="col">
+  <div data-mdb-input-init class="form-outline mb-4">
+    {{ signup_form.password_2 }}
+    <label for="{{ signup_form.password_2.id_for_label }}">Repete Password</label>
+    {% for error in signup_form.password_2.errors %}
+        <small class="text-danger">{{ error }}</small >
+    {% endfor %}
+  </div>
+</div>
+</div>
+  <!-- Submit button -->
+  <button data-mdb-ripple-init type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
+
+</form>
+{% comment %}<form novalidate method="post" action="">
+{% csrf_token %}
+    <p></p>
+<div style="max-width: 50%; display: inline-block; margin-right: 5px;" class="form-group">
+    <label for="{{ signup_form.first_name.id_for_label }}">Firstname</label>
+    {{ signup_form.first_name }}
+    {% for error in signup_form.first_name.errors %}
+        <label class="text-danger">{{ error }}</label>
+    {% endfor %}
+</div>
+<div style="max-width: 50%; display: inline-block;" class="form-group">
+    <label for="{{ signup_form.last_name.id_for_label }}">Lastname</label>
+    {{ signup_form.last_name }}
+    {% for error in signup_form.last_name.errors %}
+        <label class="text-danger">{{ error }}</label>
+    {% endfor %}
+</div>
+<p></p>
+<div style="display: inline-block; max-width: 50% ; margin-right: 5px" class="form-group">
+    <label for="{{ signup_form.username.id_for_label }}">Username</label>
+    {{ signup_form.username }}
+      {% for error in signup_form.username.errors %}
+          <small class="text-danger">{{ error }}</small >
+      {% endfor %}
+  </div>
+<div style="display: inline-block; max-width: 50%" class="form-group" >
+    <label for="{{ signup_form.email.id_for_label }}">Email</label>
+    {{ signup_form.email }}
+      {% for error in signup_form.email.errors %}
+          <small class="text-danger">{{ error }}</small >
+      {% endfor %}
+  </div>
+<p></p>
+  <div style=" display: inline-block" class="form-group">
+    <label for="{{ signup_form.password.id_for_label }}">Password</label>
+    {{ signup_form.password }}
+      {% for error in signup_form.password.errors %}
+          <small class="text-danger">{{ error }}</small >
+      {% endfor %}
+  </div>
+<p></p>
+  <div style="max-width: 80%; display: inline-block;" class="form-group">
+    <label for="{{ signup_form.password_2.id_for_label }}">Repete Password</label>
+    {{ signup_form.password_2 }}
+      {% for error in signup_form.password_2.errors %}
+          <small class="text-danger">{{ error }}</small >
+      {% endfor %}
+  </div>
+    <p></p>
+  <button type="submit" class="btn btn-primary">Submit</button>
+    <p></p>
+</form>
+{% endcomment %}
+</div>
+{% endblock content %}
+{% block title %}
+    Signup Page
+{% endblock title %}

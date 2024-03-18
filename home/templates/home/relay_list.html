@@ -1,0 +1,40 @@
+{% extends 'base/base.html' %}
+
+{% block title %}
+    Relay list
+{% endblock title %}
+
+{% block content %}
+<div class="d-flex p-2 mx-auto">
+    <div style="max-width: 80%" class="card">
+        <div class="card-body">
+            <table class="table align-middle">
+                <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">State</th>
+                        <th scope="col">Mac Adress</th>
+                        <th scope="col">Toggle</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for relay in relays %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ relay.name }}</td>
+                        <td>{% if relay.state %} <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg"><circle r="10" cx="10" cy="10" fill="lime"></circle></svg> {% else %} <svg height="20" width="20" xmlns="http://www.w3.org/2000/svg"><circle r="10" cx="10" cy="10" fill="gray"></circle></svg> {% endif %}</td>
+                        <td>{{ relay.mac_addr }}</td>
+                        <td><a href="{% url 'home:toggle_state' relay.mac_addr %}" type="button" class="btn btn-success">Toggle</a></td>
+                        <td><a href="{% url 'home:edit_relay' relay.mac_addr %}" type="button" class="btn btn-primary">Edit</a></td>
+                        <td><a href="{% url 'home:delete_relay' mac_addr=relay.mac_addr %}" type="button" class="btn btn-danger">Delete</a></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock content %}
