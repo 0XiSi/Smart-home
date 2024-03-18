@@ -1,7 +1,5 @@
 import paho.mqtt.client as mqtt
 
-from smart_home import settings
-
 
 def on_connect(mqtt_client, userdata, flags, rc):
     if rc == 0:
@@ -17,9 +15,9 @@ def on_message(mqtt_client, userdata, msg):
     client = mqtt.Client()
     client.on_connect = on_connect
     client.on_message = on_message
-    client.username_pw_set(settings.MQTT_USER, settings.MQTT_PASSWORD)
+    client.username_pw_set('', '')
     client.connect(
-        host=settings.MQTT_SERVER,
-        port=settings.MQTT_PORT,
-        keepalive=settings.MQTT_KEEPALIVE
+        host='t0c2aec5.ala.asia-southeast1.emqxsl.com',
+        port=8883,
+        keepalive=60
     )
