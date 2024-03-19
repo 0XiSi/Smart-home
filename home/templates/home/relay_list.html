@@ -6,96 +6,98 @@
 {% endblock title %}
 
 {% block content %}
-<div class="d-flex p-2 mx-auto">
-    <div style="max-width: 80%" class="card">
-        <div class="card-body">
-            <table class="table align-middle">
-                <thead>
+<div class="container">
+    <div class="d-flex p-2 mx-auto">
+        <div style="max-width: 80%" class="card">
+            <div class="card-body">
+                <table class="table align-middle">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">State</th>
+                            <th scope="col">Mac Adress</th>
+                            <th scope="col">Toggle</th>
+                            <th scope="col">Edit</th>
+                            <th scope="col">Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     <tr>
-                        <th scope="col">#</th>
-                        <th scope="col">Name</th>
-                        <th scope="col">State</th>
-                        <th scope="col">Mac Adress</th>
-                        <th scope="col">Toggle</th>
-                        <th scope="col">Edit</th>
-                        <th scope="col">Delete</th>
-                    </tr>
-                </thead>
-                <tbody>
-                <tr>
-                {% for relay in relays %}
-                        <th scope="row">{{ forloop.counter }}</th>
-                        <td>{{ relay.name }}</td>
-                        <td>
-                            {% if relay.state %}
-                                <svg id="relay_{{ relay.mac_addr }}" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-                                    <circle r="10" cx="10" cy="10" fill="lime"></circle>
-                                </svg>
-                            {% else %}
-                                <svg id="relay_{{ relay.mac_addr }}" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
-                                    <circle r="10" cx="10" cy="10" fill="gray"></circle>
-                                </svg>
-                            {% endif %}
-                        </td>
+                    {% for relay in relays %}
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td>{{ relay.name }}</td>
+                            <td>
+                                {% if relay.state %}
+                                    <svg id="relay_{{ relay.mac_addr }}" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                        <circle r="10" cx="10" cy="10" fill="lime"></circle>
+                                    </svg>
+                                {% else %}
+                                    <svg id="relay_{{ relay.mac_addr }}" height="20" width="20" xmlns="http://www.w3.org/2000/svg">
+                                        <circle r="10" cx="10" cy="10" fill="gray"></circle>
+                                    </svg>
+                                {% endif %}
+                            </td>
 {#                    <script src="{% static 'js/socket.js' %}"></script>#}
-                    <script>
-                    document.addEventListener('DOMContentLoaded', function() {
-                        const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
-                        const socket = new WebSocket(`${wsScheme}://${window.location.host}/ws/relay_updates/`);
+                        <script>
+                        document.addEventListener('DOMContentLoaded', function() {
+                            const wsScheme = window.location.protocol === "https:" ? "wss" : "ws";
+                            const socket = new WebSocket(`${wsScheme}://${window.location.host}/ws/relay_updates/`);
 
-                        socket.onopen = function(event) {
-                            console.log('WebSocket connection opened successfully.');
-                        };
+                            socket.onopen = function(event) {
+                                console.log('WebSocket connection opened successfully.');
+                            };
 
-                        socket.onmessage = function(event) {
-                            console.log('Received WebSocket message:', event.data);
-                            const data = JSON.parse(event.data);
-                            const relayId = "relay_" + data.mac_addr;
-                            const circle = document.getElementById(relayId);
-                            if (circle) {
-                                if (data.state === "True") {
-                                    circle.querySelector("circle").setAttribute("fill", "lime");
-                                } else if (data.state === "False") {
-                                    circle.querySelector("circle").setAttribute("fill", "gray");
+                            socket.onmessage = function(event) {
+                                console.log('Received WebSocket message:', event.data);
+                                const data = JSON.parse(event.data);
+                                const relayId = "relay_" + data.mac_addr;
+                                const circle = document.getElementById(relayId);
+                                if (circle) {
+                                    if (data.state === "True") {
+                                        circle.querySelector("circle").setAttribute("fill", "lime");
+                                    } else if (data.state === "False") {
+                                        circle.querySelector("circle").setAttribute("fill", "gray");
+                                    }
+
+                                    console.log('Circle updated successfully.');
+                                    console.log(circle.querySelector("circle").getAttribute("fill"))
+                                    console.log(data.state)
+                                } else {
+                                    console.log('Circle element not found for relay ID:', relayId);
                                 }
+                            };
 
-                                console.log('Circle updated successfully.');
-                                console.log(circle.querySelector("circle").getAttribute("fill"))
-                                console.log(data.state)
-                            } else {
-                                console.log('Circle element not found for relay ID:', relayId);
-                            }
-                        };
+                            socket.onclose = function(event) {
+                                console.log('WebSocket connection closed.');
+                            };
 
-                        socket.onclose = function(event) {
-                            console.log('WebSocket connection closed.');
-                        };
+                            socket.onerror = function(error) {
+                                console.error('WebSocket error:', error);
+                            };
 
-                        socket.onerror = function(error) {
-                            console.error('WebSocket error:', error);
-                        };
-
-                        // Add event listeners for toggle buttons
-                        const toggleButtons = document.querySelectorAll('.toggle-btn');
-                        toggleButtons.forEach(function(button) {
-                            button.addEventListener('click', function(event) {
-                                const macAddr = event.target.dataset.mac;
-                                // Send toggle request to server
-                                // Example: You might want to send an AJAX request to toggle the relay state
-                                console.log('Toggling relay with MAC address:', macAddr);
+                            // Add event listeners for toggle buttons
+                            const toggleButtons = document.querySelectorAll('.toggle-btn');
+                            toggleButtons.forEach(function(button) {
+                                button.addEventListener('click', function(event) {
+                                    const macAddr = event.target.dataset.mac;
+                                    // Send toggle request to server
+                                    // Example: You might want to send an AJAX request to toggle the relay state
+                                    console.log('Toggling relay with MAC address:', macAddr);
+                                });
                             });
                         });
-                    });
-                    </script>
+                        </script>
 
-                        <td>{{ relay.mac_addr }}</td>
-                        <td><a href="{% url 'home:toggle_state' relay.mac_addr %}" type="button" class="btn btn-success">Toggle</a></td>
-                        <td><a href="{% url 'home:edit_relay' relay.mac_addr %}" type="button" class="btn btn-primary">Edit</a></td>
-                        <td><a href="{% url 'home:delete_relay' mac_addr=relay.mac_addr %}" type="button" class="btn btn-danger">Delete</a></td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
+                            <td>{{ relay.mac_addr }}</td>
+                            <td><a href="{% url 'home:toggle_state' relay.mac_addr %}" type="button" class="btn btn-success">Toggle</a></td>
+                            <td><a href="{% url 'home:edit_relay' relay.mac_addr %}" type="button" class="btn btn-primary">Edit</a></td>
+                            <td><a href="{% url 'home:delete_relay' mac_addr=relay.mac_addr %}" type="button" class="btn btn-danger">Delete</a></td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
 </div>
