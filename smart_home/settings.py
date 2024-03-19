@@ -32,6 +32,8 @@ LOGIN_URL = 'accounts:user_signin'
 # Application definition
 
 INSTALLED_APPS = [
+    'channels',
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -41,6 +43,14 @@ INSTALLED_APPS = [
     'home',
     'accounts'
 ]
+
+
+CHANNEL_LAYERS = {
+    'default': {
+        'BACKEND': 'channels.layers.InMemoryChannelLayer',  # Use InMemoryChannelLayer for development
+    },
+}
+ASGI_APPLICATION = 'smart_home.asgi.application'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

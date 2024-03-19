@@ -6,6 +6,8 @@ name = "pypi"
 [packages]
 django = "*"
 paho-mqtt = "*"
+channels = "*"
+daphne = "*"
 
 [dev-packages]
 
